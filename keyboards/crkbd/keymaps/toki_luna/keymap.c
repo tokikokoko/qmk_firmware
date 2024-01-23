@@ -18,10 +18,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include QMK_KEYBOARD_H
 
+// Combo
+
+const uint16_t PROGMEM eisu_combo[] = {KC_D, KC_F, COMBO_END};
+const uint16_t PROGMEM kana_combo[] = {KC_J, KC_K, COMBO_END};
+const uint16_t PROGMEM op_combo[] = {KC_O, KC_P, COMBO_END};
+combo_t key_combos[] = {
+    COMBO(eisu_combo, KC_LNG2),
+    COMBO(kana_combo, KC_LNG1),
+    COMBO(op_combo, KC_TAB),
+};
+
+//Tap Dance Declarations
+enum {
+  TD_ESC_CAPS = 0
+};
+
+//Tap Dance Definitions
+tap_dance_action_t tap_dance_actions[] = {
+  //Tap once for Esc, twice for Caps Lock
+  [TD_ESC_CAPS]  = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_CAPS)
+// Other declarations would go here, separated by commas, if you have them
+};
+
+const int TD_ESC = TD(TD_ESC_CAPS);
+
+// Keymaps
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_ESC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
+       TD_ESC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -292,19 +319,13 @@ static void print_status_narrow(void) {
             oled_write("Base ", false);
             break;
         case 1:
-            oled_write("Game ", false);
+            oled_write("Lower ", false);
             break;
         case 2:
-            oled_write("Game2", false);
-            break;
-        case 3:
-            oled_write("Lower", false);
-            break;
-        case 4:
             oled_write("Raise", false);
             break;
-        case 5:
-            oled_write("Adj  ", false);
+        case 3:
+            oled_write("Adj", false);
             break;
         default:
             oled_write("Undef", false);
@@ -337,7 +358,8 @@ bool oled_task_user(void) {
 }
 
 #endif
- bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         /* KEYBOARD PET STATUS START */
 
