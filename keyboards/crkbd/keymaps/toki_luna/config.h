@@ -39,6 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #   define ENABLE_RGB_MATRIX_RAINDROPS
 #   define ENABLE_RGB_MATRIX_HUE_BREATHING
 #   define ENABLE_RGB_MATRIX_PIXEL_FRACTAL
+
 // #   define ENABLE_RGB_MATRIX_TYPING_HEATMAP
 // #   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_SIMPLE
 // #   define ENABLE_RGB_MATRIX_SOLID_REACTIVE
@@ -50,6 +51,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SPLIT_USB_DETECT
 
 #define TAPPING_TERM 200
+
+#define USB_SUSPEND_WAKEUP_DELAY 5000
 
 // Disable features
 
