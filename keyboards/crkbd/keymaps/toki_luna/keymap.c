@@ -23,27 +23,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 const uint16_t PROGMEM eisu_combo[] = {KC_D, KC_F, COMBO_END};
 const uint16_t PROGMEM kana_combo[] = {KC_J, KC_K, COMBO_END};
 const uint16_t PROGMEM tab_combo[] = {KC_I, KC_O, COMBO_END};
+const uint16_t PROGMEM tab_combo2[] = {KC_A, KC_S, COMBO_END};
 const uint16_t PROGMEM del_combo[] = {KC_P, KC_BSPC, COMBO_END};
 combo_t key_combos[] = {
     COMBO(eisu_combo, KC_LNG2),
     COMBO(kana_combo, KC_LNG1),
     COMBO(tab_combo, KC_TAB),
+    COMBO(tab_combo2, KC_TAB),
     COMBO(del_combo, KC_DEL),
 };
 
 //Tap Dance Declarations
 enum {
-  TD_CLN_K = 0
+  TD_LY4_K = 0
 };
 
 //Tap Dance Definitions
 tap_dance_action_t tap_dance_actions[] = {
   //Tap once for Esc, twice for Caps Lock
-  [TD_CLN_K]  = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_COLN)
+  [TD_LY4_K]  = ACTION_TAP_DANCE_DOUBLE(KC_RALT, MO(4))
 // Other declarations would go here, separated by commas, if you have them
 };
 
-const int TD_CLN = TD(TD_CLN_K);
+const int TD_LY4 = TD(TD_LY4_K);
 
 // Keymaps
 
@@ -52,9 +54,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_ESC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L,  TD_CLN, KC_QUOT,
+      KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ESC,
+      KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,   TG(4),
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_LGUI,   MO(1),  KC_SPC,     KC_ENT,   MO(2), KC_RALT
                                       //`--------------------------'  `--------------------------'
@@ -94,6 +96,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_LGUI, _______,  KC_SPC,     KC_ENT, _______, KC_RALT
+                                      //`--------------------------'  `--------------------------'
+  ),
+
+    [4] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      QK_BOOT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          XXXXXXX, _______,  XXXXXXX,    XXXXXXX, _______, XXXXXXX
                                       //`--------------------------'  `--------------------------'
   )
 };
@@ -328,6 +342,9 @@ static void print_status_narrow(void) {
             break;
         case 3:
             oled_write("Adj", false);
+            break;
+        case 4:
+            oled_write("Cur", false);
             break;
         default:
             oled_write("Undef", false);
